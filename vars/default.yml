@@ -1,0 +1,9 @@
+---
+redmine_database: 'redmine_default'
+redmine_database_user: 'redmine'
+redmine_database_pass: 'redmine_pass'
+database_user_create_sql: /tmp/create_redmine_database.sql
+default_key: keys/authorized_keys
+gitolite_public_key: 'keys/gitolite-ssh-key.pub'
+gitolite_private_key: 'keys/gitolite-ssh-key'
+gitolite_home: '/home/gitolite/'

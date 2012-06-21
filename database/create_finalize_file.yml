@@ -1,0 +1,3 @@
+---
+- name: Deploy database file
+  action: template src=templates/database_creation.j2 dest=$database_user_create_sql mode=0666 owner=postgres group=postgres

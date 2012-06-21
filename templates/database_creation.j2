@@ -1,0 +1,3 @@
+create database {{ redmine_database }};
+create user {{ redmine_database_user }} password '{{ redmine_database_pass }}';
+grant all on database {{ redmine_database }} to {{ redmine_database_user }};

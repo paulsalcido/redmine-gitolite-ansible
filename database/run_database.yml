@@ -1,0 +1,3 @@
+---
+- name: Run database file
+  action: command psql -f $database_user_create_sql

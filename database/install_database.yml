@@ -1,0 +1,3 @@
+---
+- name: install database
+  action: apt pkg=postgresql-9.1 state=installed

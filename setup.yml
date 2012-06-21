@@ -1,0 +1,6 @@
+---
+- hosts: redmine-database
+  tasks:
+    - include: include/deploy_authorized_keys.yml user=root group=root homedir=/root/
+  vars_files: 
+    - 'vars/default.yml'

@@ -1,0 +1,23 @@
+---
+- hosts: gitolite-server
+  user: root
+  tasks:
+    - name: "Install gitolite"
+      action: "apt name=gitolite state=installed"
+    - name: "Create gitolite user"
+      action: "user name=gitolite createhome=yes"
+    - include: include/deploy_authorized_keys.yml user=gitolite homedir=$gitolite_home group=gitolite
+    - name: "Add initial gitolite rc file"
+      action: "copy dest=$gitolite_home/.gitolite.rc src=templates/gitolite.rc mode=0644 owner=gitolite group=gitolite"
+  vars_files:
+    - 'vars/default.yml'
+
+- hosts: gitolite-server
+  user: gitolite
+  tasks:
+    - name: "Push public gitolite key"
+      action: "copy dest=$gitolite_home/.ssh/gitolite-ssh-key.pub src=$gitolite_public_key owner=gitolite group=gitolite mode=0660"
+    - name: "Setup gitolite"
+      action: "command gl-setup $gitolite_home/.ssh/gitolite-ssh-key.pub"
+  vars_files:
+    - 'vars/default.yml'

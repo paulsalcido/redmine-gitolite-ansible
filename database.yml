@@ -1,0 +1,16 @@
+---
+- hosts: redmine-database
+  user: root
+  tasks:
+    - include: database/install_database.yml
+    - include: include/deploy_authorized_keys.yml group=postgres user=postgres homedir=/var/lib/postgresql/
+  vars_files:
+    - 'vars/default.yml'
+
+- hosts: redmine-database
+  user: postgres
+  tasks:
+    - include: database/create_finalize_file.yml
+    - include: database/run_database.yml
+  vars_files:
+    - 'vars/default.yml'

@@ -1,0 +1,5 @@
+---
+- name: "Create .ssh directory"
+  action: "file dest=$homedir/.ssh state=directory mode=0700 owner=$user group=$user"
+- name: "Push authorized key file"
+  action: "copy src=keys/authorized_keys dest=$homedir/.ssh/authorized_keys mode=0600 owner=$user group=$group"
