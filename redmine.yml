@@ -1,0 +1,25 @@
+---
+- hosts: gitolite-server
+  user: root
+  tasks:
+    - name: "Install apache2"
+      action: "apt name=apache2-mpm-prefork state=installed"
+    - name: "Install redmine pgsql"
+      action: "apt name=redmine-pgsql state=installed"
+    - include: include/debconf.yml dest=/tmp/redmine.conf file=debconf/redmine.conf
+    - name: "Install redmine"
+      action: "apt name=redmine state=installed"
+    - name: "Install passenger"
+      action: "apt name=libapache2-mod-passenger state=installed"
+    - name: "Push new apache2 site configuration-redmine"
+      action: "template src=templates/redmine-apache2-site.j2 dest=/etc/apache2/sites-available/redmine-default owner=root group=root mode=0644"
+    - name: "Link as an enabled site."
+      action: "file src=/etc/apache2/sites-available/redmine-default dest=/etc/apache2/sites-enabled/redmine-default owner=root group=root mode=0644 state=link"
+    - name: "Pull the current ports configuration for safety sake."
+      action: "fetch src=/etc/apache2/ports.conf dest=backups/apache2_ports.conf"
+    - name: "Push the ports file"
+      action: "template src=templates/ports.j2 dest=/etc/apache2/ports.conf owner=root group=root mode=0644"
+    - name: "Restart apache2"
+      action: "service name=apache2 state=restarted"
+  vars_files: 
+    - 'vars/default.yml'

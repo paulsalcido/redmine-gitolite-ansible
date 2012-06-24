@@ -1,5 +1,5 @@
 [redmine-database]
-192.168.1.132
+redmine-automation
 
 [gitolite-server]
-192.168.1.132
+redmine-automation

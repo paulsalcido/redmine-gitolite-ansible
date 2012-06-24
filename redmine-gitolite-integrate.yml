@@ -1,0 +1,26 @@
+---
+- hosts: gitolite-server
+  user: root
+  tasks:
+    - name: "Deploy gitolite integration pieces"
+      action: "git repo=https://github.com/ericpaulbishop/redmine_git_hosting dest=/usr/share/redmine/vendor/plugins/redmine_git_hosting"
+    - name: "Create ssh dir for redmine"
+      action: "file dest=/usr/share/redmine/.ssh/ state=directory owner=www-data group=www-data mode=0700"
+    - name: "Push private key for redmine"
+      action: "copy src=keys/gitolite-ssh-key dest=/usr/share/redmine/.ssh/gitolite-ssh-key owner=www-data group=www-data mode=0600"
+    - name: "Push public key for redmine"
+      action: "copy src=keys/gitolite-ssh-key.pub dest=/usr/share/redmine/.ssh/gitolite-ssh-key.pub owner=www-data group=www-data mode=0644"
+    - name: "Push init.rb file for gitolite plugin"
+      action: "template src=templates/redmine-git-hosting-init.j2 dest=/usr/share/redmine/vendor/plugins/redmine_git_hosting/init.rb mode=0755 owner=root group=root"
+    - name: "Push sudoers file"
+      action: "template src=templates/sudoers/redmine-gitolite.j2 dest=/etc/sudoers.d/redmine-gitolite mode=0440 owner=root group=root"
+    - name: "Install lockfile for ruby"
+      action: "apt name=liblockfile-ruby state=installed"
+    - name: "Install net-ssh for ruby"
+      action: "apt name=libnet-ssh2-ruby state=installed"
+    - name: "Run rake for database push"
+      action: "shell (cd /usr/share/redmine && env RAILS_ENV=production rake db:migrate_plugins)"
+    - name: "Restart apache2"
+      action: "service name=apache2 state=restarted"
+  vars_files:
+    - 'vars/default.yml'

@@ -1,0 +1,7 @@
+---
+- name: "Push debconf file $file"
+  action: "copy src=$file dest=$dest mode=0666 owner=root group=root"
+- name: "Run debconf set for $dest"
+  action: "command /usr/bin/debconf-set-selections $dest"
+- name: "Remove dest file."
+  action: "file dest=$dest state=absent"

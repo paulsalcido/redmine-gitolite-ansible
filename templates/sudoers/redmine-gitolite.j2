@@ -1,0 +1,5 @@
+# Adds necessary login activities for redmine and
+# gitolite integration to work properly.
+
+www-data    ALL=(gitolite)   NOPASSWD:ALL
+gitolite    ALL=(www-data)   NOPASSWD:ALL
