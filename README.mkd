@@ -15,10 +15,10 @@ This can be run with:
 
 The remaining files need to be run in the following order:
 
-   ansible-playbook gitolite.yml --inventory-file=./hosts
-   ansible-playbook database.yml --inventory-file=./hosts
-   ansible-playbook redmine.yml --inventory-file=./hosts
-   ansible-playbook redmine-gitolite-integrate.yml --inventory-file=./hosts
+    ansible-playbook gitolite.yml --inventory-file=./hosts
+    ansible-playbook database.yml --inventory-file=./hosts
+    ansible-playbook redmine.yml --inventory-file=./hosts
+    ansible-playbook redmine-gitolite-integrate.yml --inventory-file=./hosts
 
 And with an appropriately setup hosts file and configuration, this will deploy the fully integrated redmine with gitolite.
 
